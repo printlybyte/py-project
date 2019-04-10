@@ -6,14 +6,18 @@ class Txt():
     def __init__(self):
         pass
 
-    # 获取每一章的内容
+    # 获取每一种酒的内容
     def get_chapter_details(self, mUrl):
         r = requests.get(mUrl)
+        # r = requests.get("http://www.vatsliquor.com/Marketing/Product/Domestic/maotai/2019/0128/277.html")
+        r.encoding = 'utf-8'  # 需要添加这一行，告知html文件解码方式
         html = r.text
         bf = BeautifulSoup(html, 'html.parser')
-        htre = bf.find_all('div', class_="showtxt")
+        htre = bf.find_all('div',  ['cpxqs_right','cpxqs_cont'])
         htretxt = htre[0].text
+        htretxt2 = htre[1].text
         print(htretxt.replace('\xa0' * 8, '\n\n'))
+        print(htretxt2 )
         return htretxt
 
     # 获取列表
@@ -29,7 +33,9 @@ class Txt():
         for va in ab:
             ap_title = va.find('p')
             ap_img = va.find('img')
-            print(baseUrl + va.get('href'), ap_title.string, baseUrl + ap_img.get('src'))
+            details_url=baseUrl + va.get('href')
+            print(details_url, ap_title.string, baseUrl + ap_img.get('src'))
+            self.get_chapter_details(details_url)
         return htre
 
     # 获取主标题列表
@@ -53,9 +59,17 @@ class Txt():
 
 if __name__ == '__main__':
     mT = Txt()
+    # mT.get_chapter_details("")
     # mT.get_chapter_details('https://www.biqukan.com/0_790/71166370.html')
     # mT.get_chapter_list("http://www.vatsliquor.com",
     #                     'http://www.vatsliquor.com/Marketing/Product/Domestic/maotai/')
 
     mT.get_chapter_title_list("http://www.vatsliquor.com",
                               'http://www.vatsliquor.com/Marketing/Product/Domestic/maotai/')
+    mT.get_chapter_title_list("http://www.vatsliquor.com",
+                              'http://www.vatsliquor.com/Marketing/Product/international/first/Aaron/alunxuan_putaojiu/')
+    mT.get_chapter_title_list("http://www.vatsliquor.com",
+                          'http://www.vatsliquor.com/Marketing/Product/international/Mingzhuang/Bordeaux/boerduoliejimingzhuang/')
+    mT.get_chapter_title_list("http://www.vatsliquor.com",
+                          'http://www.vatsliquor.com/Marketing/Product/international/Spirits/Garstein/')
+
