@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
+import xlwt
+
 
 
 class Txt():
@@ -16,7 +18,10 @@ class Txt():
         htre = bf.find_all('div',  ['cpxqs_right','cpxqs_cont'])
         htretxt = htre[0].text
         htretxt2 = htre[1].text
-        print(htretxt.replace('\xa0' * 8, '\n\n'))
+        detailsx=htretxt.replace('\xa0' * 8, '\n\n')
+        details.append(detailsx)
+        details2.append(htretxt2)
+        print(detailsx)
         print(htretxt2 )
         return htretxt
 
@@ -35,8 +40,14 @@ class Txt():
             ap_img = va.find('img')
             details_url=baseUrl + va.get('href')
             print(details_url, ap_title.string, baseUrl + ap_img.get('src'))
+            names.append(ap_title.string)
+            address.append(details_url)
+            imgs.append( baseUrl + ap_img.get('src'))
             self.get_chapter_details(details_url)
-        return htre
+
+
+        return names
+
 
     # 获取主标题列表
     def get_chapter_title_list(self, baseUrl, mUrl):
@@ -64,6 +75,13 @@ if __name__ == '__main__':
     # mT.get_chapter_list("http://www.vatsliquor.com",
     #                     'http://www.vatsliquor.com/Marketing/Product/Domestic/maotai/')
 
+    # 创建workbook（其实就是excel，后来保存一下就行）
+    workbook = xlwt.Workbook(encoding='ascii')
+    # 创建表
+    worksheet = workbook.add_sheet('My Worksheet')
+    names,imgs,details,details2,address=[],[],[],[],[]
+
+
     mT.get_chapter_title_list("http://www.vatsliquor.com",
                               'http://www.vatsliquor.com/Marketing/Product/Domestic/maotai/')
     mT.get_chapter_title_list("http://www.vatsliquor.com",
@@ -72,4 +90,12 @@ if __name__ == '__main__':
                           'http://www.vatsliquor.com/Marketing/Product/international/Mingzhuang/Bordeaux/boerduoliejimingzhuang/')
     mT.get_chapter_title_list("http://www.vatsliquor.com",
                           'http://www.vatsliquor.com/Marketing/Product/international/Spirits/Garstein/')
+
+    for i in range (0,len(names)):
+        worksheet.write(i, 0, label=names[i])
+        worksheet.write(i, 1, label=address[i])
+        worksheet.write(i, 2, label=imgs[i])
+        worksheet.write(i, 3, label=details[i])
+        worksheet.write(i, 4, label=details2[i])
+    workbook.save('Excel_Workbook.xls')
 
