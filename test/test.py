@@ -1,32 +1,32 @@
-import numpy as np
-import matplotlib.cm as cm
-import matplotlib.pyplot as plt
-import matplotlib.cbook as cbook
-from matplotlib.path import Path
-from matplotlib.patches import PathPatch
-
-# 支持中文
-plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
-plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
-
-w, h = 512, 512
-
-with cbook.get_sample_data('ct.raw.gz', asfileobj=True) as datafile:
-    s = datafile.read()
-A = np.fromstring(s, np.uint16).astype(float).reshape((w, h))
-A /= A.max()
-
-fig, ax = plt.subplots()
-extent = (0, 25, 0, 25)
-im = ax.imshow(A, cmap=plt.cm.hot, origin='upper', extent=extent)
-
-markers = [(15.9, 14.5), (16.8, 15)]
-x, y = zip(*markers)
-ax.plot(x, y, 'o')
-
-ax.set_title('CT density')
-
-plt.show()
+# import numpy as np
+# import matplotlib.cm as cm
+# import matplotlib.pyplot as plt
+# import matplotlib.cbook as cbook
+# from matplotlib.path import Path
+# from matplotlib.patches import PathPatch
+#
+# # 支持中文
+# plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
+# plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+#
+# w, h = 512, 512
+#
+# with cbook.get_sample_data('ct.raw.gz', asfileobj=True) as datafile:
+#     s = datafile.read()
+# A = np.fromstring(s, np.uint16).astype(float).reshape((w, h))
+# A /= A.max()
+#
+# fig, ax = plt.subplots()
+# extent = (0, 25, 0, 25)
+# im = ax.imshow(A, cmap=plt.cm.hot, origin='upper', extent=extent)
+#
+# markers = [(15.9, 14.5), (16.8, 15)]
+# x, y = zip(*markers)
+# ax.plot(x, y, 'o')
+#
+# ax.set_title('CT density')
+#
+# plt.show()
 
 
 # This import registers the 3D projection, but is otherwise unused.
@@ -113,3 +113,6 @@ from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 #
 # plt.show()
 
+from selenium import webdriver
+
+browce = webdriver.Chrome()

@@ -60,7 +60,7 @@ class Qp():
         # print(htrex)
         for va in htrex:
             sub_url=va.get('src')
-            # self.get_img(sub_url)
+            self.get_img(sub_url)
             print(sub_url)
 
     # 获取列表
@@ -77,6 +77,7 @@ class Qp():
             os.mkdir(path)
             self.get_img_list(va.get('href'))
         # return htretxt
+
 
     def get_page(self, mUrl):
         req = requests.get(url=mUrl, headers=self.headers)
